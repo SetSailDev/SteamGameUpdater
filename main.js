@@ -1,5 +1,7 @@
+console.log("Starting...")
 const fs=require("fs")
 const axios=require("axios")
+const {MessageEmbed} = require("discord.js")
 const childProcess = require("child_process");
 const config=JSON.parse(fs.readFileSync("settings.json"))
 //Initialize Loop
@@ -8,7 +10,7 @@ checkVersion()
 
 //Insert Custom Code to be executed when an update is available within this function
 function CustomFunction(){
-    //Insert Code Here
+    //Insert Custom Function here
 }
 
 
@@ -18,7 +20,14 @@ async function checkVersion(){
         console.log("Checking Version")
         var store=JSON.parse(fs.readFileSync("store.json"))
         //Request Game Info From SteamCMD.Net
-        response=await axios(`https://api.steamcmd.net/v1/info/${config.AppID}`)
+        try {
+            response=await axios(`https://api.steamcmd.net/v1/info/${config.AppID}`)
+        } catch (error) {
+            console.log("Failed to fetch data from API.")
+            console.log("----------")
+            checkVersion()
+            return
+        }
         //Get the game build and last updated time from the response
         branchData=response.data.data[config.AppID].depots.branches[config.BranchName]
         build=branchData.buildid
