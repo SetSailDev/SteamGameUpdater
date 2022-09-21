@@ -1,7 +1,6 @@
 console.log("Starting...")
 const fs=require("fs")
 const axios=require("axios")
-const {MessageEmbed} = require("discord.js")
 const childProcess = require("child_process");
 const config=JSON.parse(fs.readFileSync("settings.json"))
 //Initialize Loop
